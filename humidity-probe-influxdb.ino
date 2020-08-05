@@ -184,5 +184,9 @@ bool connectWifi() {
     delay(WIFI_RECONNECT_DELAY_MS);
     count++;
   }
+  Serial.println("");
+  Serial.println("WiFi connected..!");
+  Serial.print("Got IP: ");
+  Serial.println(WiFi.localIP());
   return WiFi.status() == WL_CONNECTED;
 }
