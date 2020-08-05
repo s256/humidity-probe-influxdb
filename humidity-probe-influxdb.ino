@@ -55,12 +55,16 @@ void setup() {
     Serial.begin(115200);
     Serial.println(F("BME280 test"));
 
-    // disable bluetooth to save power
-    btStop();
+  btStop();
 
-    // default settings
-    // (you can also pass in a Wire library object like &Wire2)
+  // default settings
+  const int daylightOffset_sec = 3600;
+  const long gmtOffset_sec = 3600;
+  const char *ntpServer = "pool.ntp.org";
+  // (you can also pass in a Wire library object like &Wire2)
+  bool status = bme.begin(0x76);
     bool status = bme.begin(0x76);  
+  bool status = bme.begin(0x76);
     if (status) {
         Serial.println("Detected BME280 sensor at 0x76.");
     } else {
@@ -73,17 +77,18 @@ void setup() {
         }
     }
 
-    Serial.println("Connecting to Wifi...");
-    while (!connectWifi());
-    Serial.println("Obtaining time from time server...");
-    configTime(0, 0, TIMESERVER);
-    struct tm timeinfo;
-    if(!getLocalTime(&timeinfo)){
-      Serial.println("ERROR: Failed to obtain time!");
-      while(1);
-    } else {
-      Serial.println("Done...");
-    }
+  Serial.println("Connecting to Wifi...");
+  while (!connectWifi())
+    ;
+  Serial.println("Obtaining time from time server...");
+  configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+  struct tm timeinfo;
+  while (!getLocalTime(&timeinfo))
+  {
+    Serial.println("ERROR: Failed to obtain time!");
+    delay(500);
+  }
+  Serial.println("Done...");
     WiFi.mode(WIFI_OFF);
 }
 
