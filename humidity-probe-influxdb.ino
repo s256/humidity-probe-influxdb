@@ -31,9 +31,7 @@
 #define WIFI_RECONNECT_TRY_MAX 10
 #define WIFI_RECONNECT_DELAY_MS 500
 
-#define TIMESERVER "europe.pool.ntp.org"
-#define SLEEP_TIME 60*1000          // time between measurements in ms
-#define DATA_TRANSFER_BATCH_SIZE 10 // transfer after this number of items have been collected
+#define TIMESERVER "de.pool.ntp.org"
 
 // Define data record
 struct Measurement {
