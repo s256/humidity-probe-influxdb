@@ -103,13 +103,11 @@ void loop() {
     time(&m.time);
 
     queue.push_back(m);
-    if (queue.size() % DATA_TRANSFER_BATCH_SIZE == 0) {
-      transferData();
-    }
-    Serial.println("Sleeping....");
-    esp_sleep_enable_timer_wakeup(60*1000*1000 - (esp_log_timestamp()-now)*1000);
-    esp_light_sleep_start();
-    Serial.println("Resuming...");
+  }
+  Serial.println("Sleeping....");
+  esp_sleep_enable_timer_wakeup(SLEEP_TIME * 1000 - (esp_log_timestamp() - now) * 1000);
+  esp_light_sleep_start();
+  Serial.println("Resuming...");
 }
 
 /** 
